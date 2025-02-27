@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Thu Feb 27 07:49:37 GMT 2025","Thu Feb 27 07:49:37 GMT 2025","317","tests.api","Задачи","TestTasks","","","Создать задачу с значением из 1 символа",""
+"failed","Thu Feb 27 07:49:53 GMT 2025","Thu Feb 27 07:49:54 GMT 2025","1035","tests.ui","Страница Обзор","TestReview","","","Создание новой задачи",""
+"broken","Thu Feb 27 07:49:39 GMT 2025","Thu Feb 27 07:49:50 GMT 2025","10542","tests.ui","test_auth","","","","Авторизация пользователя",""
