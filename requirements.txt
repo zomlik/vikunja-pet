@@ -1,5 +1,6 @@
 ﻿allure-python-commons
 pytest
+requests
 selenium
 allure-pytest
 python-dotenv
