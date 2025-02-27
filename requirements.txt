@@ -1,6 +1,6 @@
+﻿allure-python-commons
 pytest
 selenium
 allure-pytest
-﻿allure-python-commons
 python-dotenv
 
