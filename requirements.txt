@@ -1,3 +1,6 @@
 pytest
 selenium
-alluire-pytest
+allure-pytest
+﻿allure-python-commons
+python-dotenv
+
