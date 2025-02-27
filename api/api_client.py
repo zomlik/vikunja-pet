@@ -4,9 +4,9 @@ from utils.logger import log
 
 
 class ApiClient:
-    def __init__(self):
+    def __init__(self, token: str = None):
         self.response = None
-        self.token = None
+        self.token = token
         self.timeout = 10
 
     def get(self, url: str, query: dict = None):
@@ -16,6 +16,7 @@ class ApiClient:
                                      },
                                      params=query,
                                      timeout=self.timeout)
+        log(self.response)
 
     def post(self, url: str, data: dict = None):
         self.response = requests.post(url=url,
@@ -40,3 +41,6 @@ class ApiClient:
 
     def get_json(self):
         return self.response.json()
+
+    def status_code(self):
+        return self.response.status_code

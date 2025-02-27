@@ -4,15 +4,21 @@ from datetime import datetime
 
 import allure
 import pytest
+import requests
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
+from api.project_api import ProjectAPI
 from pages.auth import Auth
 from utils.load_data import load_data
-from utils.url import URL
+from utils.url import URL, Endpoints
+
+
+LOGIN = os.getenv("LOGIN")
+PASSWORD = os.getenv("PASSWORD")
 
 
 def pytest_configure(config):
@@ -48,7 +54,18 @@ def driver(chrome_options):
 
 @pytest.fixture()
 def get_token():
-    pass
+    r = requests.post(Endpoints.LOGIN, json={
+        "username": LOGIN,
+        "password": PASSWORD
+    })
+    return r.json()["token"]
+
+
+@pytest.fixture()
+def get_project_id(get_token):
+    r = ProjectAPI(get_token)
+    r.get_project()
+    return r.get_projects_ids()
 
 
 @pytest.fixture(autouse=True)
@@ -56,8 +73,8 @@ def auth(driver):
     try:
         page = Auth(driver)
         page.open(URL.MAIN_PAGE)
-        page.do_auth(login=os.getenv("LOGIN"), password=os.getenv("PASSWORD"))
-        assert os.getenv("LOGIN") in page.text_hello_user()
+        page.do_auth(login=LOGIN, password=PASSWORD)
+        assert LOGIN in page.text_hello_user()
     except Exception as e:
         raise e
 
@@ -66,8 +83,13 @@ def auth(driver):
 def pytest_runtest_makereport(item):
     outcome = yield
     rep = outcome.get_result()
-    if rep.when == "call" and rep.failed:
-        browser = item.funcargs["driver"]
-        allure.attach(browser.get_screenshot_as_png(),
-                      name=f"Screenshot {datetime.now()}",
-                      attachment_type=allure.attachment_type.PNG)
+    try:
+        if rep.when == "call" and rep.failed:
+            browser = item.funcargs["driver"]
+            allure.attach(browser.get_screenshot_as_png(),
+                          name=f"Screenshot {datetime.now()}",
+                          attachment_type=allure.attachment_type.PNG)
+    except KeyError:
+        pass
+    except Exception as e:
+        raise e

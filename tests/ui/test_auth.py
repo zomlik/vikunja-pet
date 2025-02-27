@@ -13,8 +13,3 @@ def test_auth(driver):
     page.do_auth(login=os.getenv("LOGIN"), password=os.getenv("PASSWORD"))
     with allure.step("Пользователь успешно авторизован"):
         assert os.getenv("LOGIN") in page.text_hello_user()
-
-
-def test_data(driver):
-    if 1 == 1:
-        return True

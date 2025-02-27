@@ -1,14 +1,16 @@
-from pydantic import BaseModel
+from datetime import datetime
 from typing import List
+
+from pydantic import BaseModel
 
 
 class CreatedBy(BaseModel):
-    created: str
-    email: str
-    id: int
-    name: str
-    updated: str
-    username: str
+    created: str = ""
+    email: str = ""
+    id: int = 0
+    name: str = ""
+    updated: str = None
+    username: str = None
 
 
 class File(BaseModel):
@@ -100,29 +102,29 @@ class CreateTask(BaseModel):
     buckets: List[Buckets] = []
     comments: List[Comments] = []
     cover_image_attachment_id: int = None
-    created: str = ""
-    created_by: CreatedBy
+    created: str = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+    created_by: CreatedBy = {}
     description: str = ""
     done: bool = False
-    done_at: str = ""
-    due_date: str = ""
-    end_date: str = ""
+    done_at: str = None
+    due_date: str = None
+    end_date: str = None
     hex_color: str = ""
     id: int = 0
-    identifier: str = 0
-    index: int
-    is_favorite: bool
-    labels: List[Labels]
-    percent_done: int
-    position: int
-    priority: int
-    project_id: int
-    reactions: Reactions
-    related_tasks: RelatedTasks
-    reminders: List[Reminders]
-    repeat_after: int
-    repeat_mode: int
-    start_date: str
-    subscription: Subscription
-    title: str
-    updated: str
+    identifier: str = ""
+    index: int = 0
+    is_favorite: bool = False
+    labels: List[Labels] = []
+    percent_done: int = 0
+    position: int = 0
+    priority: int = 0
+    project_id: int = 0
+    reactions: Reactions = {}
+    related_tasks: RelatedTasks = {}
+    reminders: List[Reminders] | None = []
+    repeat_after: int = 0
+    repeat_mode: int = 0
+    start_date: str = None
+    subscription: Subscription = None
+    title: str = ""
+    updated: str = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
